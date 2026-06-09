@@ -15,5 +15,11 @@ namespace WebApi.Controllers
         {
             return await Mediator.Send(new Ask.Command());
         }
+
+        [HttpGet("toptovisit")]
+        public async Task<ActionResult<TravelResponse>> Ask(TravelRequest request)
+        {
+            return await Mediator.Send(new Ask.Command());
+        }
     }
 }
