@@ -15,11 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\Data.Entities\Data.Entities.csproj" />
-    <ProjectReference Include="..\Domain.Models\Domain.Models.csproj" />
-    <ProjectReference Include="..\Interactors\Interactors.csproj" />
-    <ProjectReference Include="..\Mappers\Mappers.csproj" />
-    <ProjectReference Include="..\View.Models\View.Models.csproj" />
+    <ProjectReference Include="..\View.Models\Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

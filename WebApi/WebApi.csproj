@@ -20,7 +20,7 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Domain.Services\Domain.Services.csproj" />
     <ProjectReference Include="..\Mediators\Mediators.csproj" />
-    <ProjectReference Include="..\View.Models\View.Models.csproj" />
+    <ProjectReference Include="..\View.Models\Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

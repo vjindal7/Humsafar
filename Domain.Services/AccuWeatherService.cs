@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.Configuration;
-
+﻿using Contracts.Responses.Weather;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-
-using View.Models;
 
 namespace Domain.Services
 {
     public interface IAccuWeatherService
     {
+        Task<WeatherResponse> GetCurrentWeatherAsync(string city);
     }
 
     public class AccuWeatherService : IAccuWeatherService
@@ -27,8 +26,7 @@ namespace Domain.Services
 
         public async Task<string> GetLocationKeyAsync(string city)
         {
-            var url = $"https://dataservice.accuweather.com/locations/v1/cities/search" +
-                      $"?apikey={ApiKey}&q={city}";
+            var url = $"https://dataservice.accuweather.com/locations/v1/cities/search" + $"?apikey={ApiKey}&q={city}";
 
             var json = await _http.GetStringAsync(url);
             var doc = JsonDocument.Parse(json);
@@ -36,24 +34,29 @@ namespace Domain.Services
             return doc.RootElement[0].GetProperty("Key").GetString()!;
         }
 
-        public async Task<WeatherViewModel> GetCurrentWeatherAsync(string city)
+        public async Task<WeatherResponse> GetCurrentWeatherAsync(string city)
         {
             var key = await GetLocationKeyAsync(city);
 
-            var url = $"https://dataservice.accuweather.com/currentconditions/v1/{key}" +
-                      $"?apikey={ApiKey}&details=true";
+            var url = $"https://dataservice.accuweather.com/currentconditions/v1/{key}" + $"?apikey={ApiKey}&details=true";
 
             var json = await _http.GetStringAsync(url);
             var doc = JsonDocument.Parse(json);
-            var root = doc.RootElement[0];
+            var weather = doc.RootElement[0];
 
-            return new WeatherViewModel
+            return new WeatherResponse
             {
                 City = city,
-                Condition = root.GetProperty("WeatherText").GetString()!,
-                TemperatureC = root.GetProperty("Temperature")
-                                    .GetProperty("Metric")
-                                    .GetProperty("Value").GetDecimal()
+
+                Condition = weather
+                    .GetProperty("WeatherText")
+                    .GetString(),
+
+                TemperatureC = weather
+                    .GetProperty("Temperature")
+                    .GetProperty("Metric")
+                    .GetProperty("Value")
+                    .GetDecimal()
             };
         }
     }
