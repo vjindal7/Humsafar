@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Services", "Domain.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediators", "Mediators\Mediators.csproj", "{44345C7E-A631-4FF2-8B9E-FA5B237A19BF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "View.Models\Contracts.csproj", "{0DBA04F9-D0D2-438E-8935-3AA118286A39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{0DBA04F9-D0D2-438E-8935-3AA118286A39}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{DF2E3035-471D-4C2C-8761-44829474E275}"
 EndProject
