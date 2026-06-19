@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\View.Models\Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

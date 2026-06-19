@@ -71,6 +71,7 @@ namespace WebApi
             services.AddTransient<ITravelAssistantService, TravelAssistantService>();
             services.AddHttpClient<IAccuWeatherService, AccuWeatherService>();
             services.AddTransient<IRouteService, RouteService>();
+            services.AddTransient<IAttractionService, AttractionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
