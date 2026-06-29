@@ -10,14 +10,9 @@ namespace WebApi.Controllers
     public class RouteController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<RouteResponse>> Get(string source, string destination)
+        public async Task<ActionResult<RouteResponse>> Generate([FromQuery] GetRoute.Command command)
         {
-            return await Mediator.Send(
-                new GetRoute.Command
-                {
-                    Source = source,
-                    Destination = destination
-                });
+            return await Mediator.Send(command);
         }
     }
 }

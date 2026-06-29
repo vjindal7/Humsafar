@@ -2,6 +2,7 @@
 
 using OpenAI.Chat;
 
+using System;
 using System.ClientModel;
 using System.Threading.Tasks;
 
@@ -20,35 +21,64 @@ namespace Domain.Services
         {
             var apiKey = config["OpenAI:ApiKey"];
 
-            _client = new ChatClient(
-                model: "gpt-4o-mini",
-                credential: new ApiKeyCredential(apiKey)
-            );
+            //if (string.IsNullOrWhiteSpace(apiKey))
+            //{
+            //    throw new InvalidOperationException("OpenAI API key not configured.");
+            //}
+
+            _client = new ChatClient(model: "gpt-4o-mini", credential: new ApiKeyCredential(apiKey));
         }
 
         public async Task<string> GetTravelResponseAsync(string userInput)
         {
-            var systemPrompt = @"
-You are an expert Travel Assistant AI.
-You help with:
-- Trip planning
-- Itineraries
-- Budget travel
-- Hotels & attractions
-- Local recommendations
+            var systemPrompt =
+"""
+You are Humsafar AI Travel Companion.
 
-Always respond in structured format with clear sections.
-";
+Your job:
+- Analyze weather
+- Analyze route conditions
+- Suggest ideal departure time
+- Recommend stops
+- Warn about difficult conditions
+- Recommend essentials
 
-            var response = await _client.CompleteChatAsync(
-                new ChatMessage[]
+Always respond EXACTLY in this format:
+
+Travel Advice:
+<short advice>
+
+Warnings:
+- item
+
+Suggested Stops:
+- item
+
+Best Departure:
+<time>
+
+Keep responses practical and concise.
+""";
+
+            try
+            {
+                var response = await _client.CompleteChatAsync(
+                            new ChatMessage[]
+                            {
+                                new SystemChatMessage(systemPrompt), new UserChatMessage(userInput)
+                            });
+
+                if (response?.Value?.Content?.Count > 0)
                 {
-                new SystemChatMessage(systemPrompt),
-                new UserChatMessage(userInput)
+                    return response.Value.Content[0].Text;
                 }
-            );
 
-            return response.Value.Content[0].Text;
+                return "No recommendation available.";
+            }
+            catch (Exception ex)
+            {
+                return $"Travel assistant unavailable. {ex.Message}";
+            }
         }
     }
 }
