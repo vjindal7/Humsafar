@@ -70,6 +70,7 @@ namespace WebApi
             // Services
             services.AddTransient<ITravelAssistantService, TravelAssistantService>();
             services.AddHttpClient<IAccuWeatherService, AccuWeatherService>();
+            services.AddHttpClient<ITrafficService, TrafficService>();
             services.AddTransient<IRouteService, RouteService>();
             services.AddTransient<IAttractionService, AttractionService>();
             services.AddTransient<ITravelScoreService, TravelScoreService>();

@@ -1,7 +1,8 @@
 using Contracts.Requests.Traffic;
 using Contracts.Responses.Traffic;
-using Mediators.Traffic;
+using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -10,13 +11,36 @@ namespace WebApi.Controllers
     [ApiController]
     public class TrafficController : BaseController
     {
-        [HttpGet("gettraffic")]
-        public async Task<ActionResult<TrafficResponse>> GetTrafficDetails(TrafficRequest request)
+        private readonly ITrafficService _trafficService;
+
+        public TrafficController(ITrafficService trafficService)
         {
-            return await Mediator.Send(new GetTraffic.Command
+            _trafficService = trafficService;
+        }
+
+        [HttpGet("gettraffic")]
+        public async Task<ActionResult<TrafficResponse>> GetTrafficDetails([FromQuery] TrafficRequest request)
+        {
+            var result = await _trafficService.GetTrafficDetailsAsync(
+                request.SourceLat,
+                request.SourceLng,
+                request.DestinationLat,
+                request.DestinationLng,
+                request.TravelMode);
+
+            using var json = JsonDocument.Parse(result);
+
+            var summary = json.RootElement
+                .GetProperty("routes")[0]
+                .GetProperty("summary");
+
+            return Ok(new TrafficResponse
             {
-                Source = request.Source,
-                Destination = request.Destination
+                Distance = summary.GetProperty("lengthInMeters").GetInt32(),
+                TravelTime = summary.GetProperty("travelTimeInSeconds").GetInt32(),
+                TrafficDelay = summary.GetProperty("trafficDelayInSeconds").GetInt32(),
+                NoTrafficTime = summary.GetProperty("noTrafficTravelTimeInSeconds").GetInt32(),
+                ArrivalTime = summary.GetProperty("arrivalTime").GetString() ?? string.Empty
             });
         }
     }
