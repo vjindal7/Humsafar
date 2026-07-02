@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Google.GenAI\GoogleGenAI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

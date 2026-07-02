@@ -28,7 +28,7 @@ namespace Domain.Services
             await Task.Delay(300);
 
             var weather = await _weather.GetCurrentWeatherAsync(request.Destination);
-            var stops = _recommendation.GetStops(request);
+            var stops = await _recommendation.GetStops(request);
             var score = _travelScore.Calculate(weather, request);
 
             var aiAdvice = await _assistant.GetTravelResponseAsync(

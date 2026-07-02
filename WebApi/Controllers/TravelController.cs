@@ -1,9 +1,12 @@
 ﻿using Contracts.Requests.Travel;
+using Contracts.Responses.Route;
 using Contracts.Responses.Travel;
+
 using Mediators.Travel;
 
 using Microsoft.AspNetCore.Mvc;
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -16,16 +19,10 @@ namespace WebApi.Controllers
             return await Mediator.Send(new Ask.Command());
         }
 
-        [HttpPost("attractions")]
-        public async Task<ActionResult<AttractionResponse>> GetAttractions(AttractionRequest request)
+        [HttpPost("recommendations")]
+        public async Task<ActionResult<List<StopResponse>>> GetRecommendations(Recommendations.Command command)
         {
-            return await Mediator.Send(new Attractions.Command
-            {
-                Latitude = request.Latitude,
-                Longitude = request.Longitude,
-                Mood = request.Mood,
-                Preferences = request.Preferences
-            });
+            return await Mediator.Send(command);
         }
     }
 }

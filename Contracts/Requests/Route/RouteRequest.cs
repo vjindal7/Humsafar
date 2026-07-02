@@ -10,10 +10,13 @@
 
         public string Vibe { get; set; }
 
-        public int Travelers { get; set; }
+        public string Travelers { get; set; }
 
-        public decimal Budget { get; set; }
+        public int Budget { get; set; }
 
         public bool ScenicRoute { get; set; }
+
+        public string CurrentLatitude { get; set; }
+        public string CurrentLongitude { get; set; }
     }
 }

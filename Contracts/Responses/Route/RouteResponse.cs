@@ -1,5 +1,7 @@
 ﻿using Contracts.Responses.Weather;
+
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Contracts.Responses.Route
 {
@@ -32,10 +34,22 @@ namespace Contracts.Responses.Route
 
     public class StopResponse
     {
-        public string Name { get; set; }
+        [JsonPropertyName("PlaceName")]
+        public string PlaceName { get; set; } = string.Empty;
 
-        public string Type { get; set; }
+        [JsonPropertyName("PlaceType")]
+        public string PlaceType { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        [JsonPropertyName("Description")]
+        public string Description { get; set; } = string.Empty;
+
+        [JsonPropertyName("LatOffset")]
+        public double LatOffset { get; set; }
+
+        [JsonPropertyName("LonOffset")]
+        public double LonOffset { get; set; }
+
+        [JsonPropertyName("Rating")]
+        public double Rating { get; set; }
     }
 }
