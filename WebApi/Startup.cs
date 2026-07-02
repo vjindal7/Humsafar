@@ -1,5 +1,7 @@
 using Domain.Services;
 
+using GoogleGenAI;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using NLog;
+
+using OpenAI;
 
 using System.Text.Json.Serialization;
 
@@ -68,6 +72,8 @@ namespace WebApi
             });
 
             // Services
+            services.AddTransient<IGenAIClient, GenAIClient>();
+
             services.AddTransient<ITravelAssistantService, TravelAssistantService>();
             services.AddHttpClient<IAccuWeatherService, AccuWeatherService>();
             services.AddHttpClient<ITrafficService, TrafficService>();
